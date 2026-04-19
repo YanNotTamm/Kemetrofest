@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.625rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-neon text-nearblack font-body antialiased;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Card styles */
+  .kcard {
+    @apply rounded-4xl border-[3px] border-nearblack shadow-hard bg-white;
+  }
+  
+  .kcard-lavender {
+    @apply rounded-4xl border-[3px] border-nearblack shadow-hard bg-lavender;
+  }
+  
+  .kcard-mint {
+    @apply rounded-4xl border-[3px] border-nearblack shadow-hard bg-mint;
+  }
+  
+  .kcard-sky {
+    @apply rounded-4xl border-[3px] border-nearblack shadow-hard bg-sky;
+  }
+  
+  .kcard-coral {
+    @apply rounded-4xl border-[3px] border-nearblack shadow-hard bg-coral;
+  }
+  
+  .kcard-cream {
+    @apply rounded-4xl border-[3px] border-nearblack shadow-hard bg-cream;
+  }
+  
+  .kcard-lime {
+    @apply rounded-4xl border-[3px] border-nearblack shadow-hard bg-lime;
+  }
+
+  /* Button styles */
+  .kbtn {
+    @apply px-6 py-3 rounded-full border-[3px] border-nearblack font-accent font-bold tracking-wide transition-transform duration-200;
+  }
+  
+  .kbtn:hover {
+    @apply -translate-y-1;
+  }
+  
+  .kbtn-primary {
+    @apply kbtn bg-lime text-nearblack;
+  }
+  
+  .kbtn-secondary {
+    @apply kbtn bg-nearblack text-white;
+  }
+
+  /* Typography */
+  .kheading {
+    @apply font-display font-black uppercase tracking-tight leading-none;
+  }
+  
+  .klabel {
+    @apply font-accent font-semibold tracking-widest text-sm uppercase;
+  }
+
+  /* Pattern backgrounds */
+  .pattern-stars {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L33 23 L51 23 L36 34 L41 52 L30 41 L19 52 L24 34 L9 23 L27 23 Z' fill='%23141414' fill-opacity='0.08'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+  
+  .pattern-diagonal {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(20, 20, 20, 0.05) 10px,
+      rgba(20, 20, 20, 0.05) 12px
+    );
+  }
+  
+  .pattern-dots {
+    background-image: radial-gradient(rgba(20, 20, 20, 0.1) 1.5px, transparent 1.5px);
+    background-size: 20px 20px;
+  }
+
+  /* Form styles */
+  .kinput {
+    @apply w-full px-4 py-3 rounded-2xl border-[3px] border-nearblack bg-white font-body text-nearblack placeholder:text-charcoal/50 focus:outline-none focus:ring-4 focus:ring-lime/50 transition-all;
+  }
+  
+  .kselect {
+    @apply w-full px-4 py-3 rounded-2xl border-[3px] border-nearblack bg-white font-body text-nearblack focus:outline-none focus:ring-4 focus:ring-lime/50 transition-all appearance-none cursor-pointer;
+  }
+
+  /* Grain overlay */
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FF9D00;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #141414;
+  border-radius: 5px;
+  border: 2px solid #FF9D00;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2B2B2B;
+}
+
+/* Selection styling */
+::selection {
+  background: #B8FF3B;
+  color: #141414;
+}

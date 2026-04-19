@@ -1,0 +1,108 @@
+/* App-specific styles */
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Pin spacer fix for GSAP */
+.pin-spacer {
+  pointer-events: none !important;
+}
+
+.pin-spacer > * {
+  pointer-events: auto !important;
+}
+
+/* Section base styles */
+section {
+  position: relative;
+}
+
+/* Card hover lift effect */
+.kcard,
+.kcard-lavender,
+.kcard-mint,
+.kcard-sky,
+.kcard-coral,
+.kcard-cream,
+.kcard-lime {
+  transition: transform 0.3s ease;
+}
+
+.kcard:hover,
+.kcard-lavender:hover,
+.kcard-mint:hover,
+.kcard-sky:hover,
+.kcard-coral:hover,
+.kcard-cream:hover,
+.kcard-lime:hover {
+  transform: translateY(-2px);
+}
+
+/* Button press effect */
+.kbtn:active,
+.kbtn-primary:active,
+.kbtn-secondary:active {
+  transform: translateY(2px) scale(0.98);
+}
+
+/* Form focus states */
+.kinput:focus,
+.kselect:focus {
+  box-shadow: 0 0 0 4px rgba(184, 255, 59, 0.4);
+}
+
+/* Image loading placeholder */
+img {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+}
+
+/* Prevent text selection on interactive elements */
+.kbtn,
+.kbtn-primary,
+.kbtn-secondary {
+  user-select: none;
+}
+
+/* Mobile touch improvements */
+@media (hover: none) {
+  .kcard:hover,
+  .kcard-lavender:hover,
+  .kcard-mint:hover,
+  .kcard-sky:hover,
+  .kcard-coral:hover,
+  .kcard-cream:hover,
+  .kcard-lime:hover {
+    transform: none;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Print styles */
+@media print {
+  .kcard,
+  .kcard-lavender,
+  .kcard-mint,
+  .kcard-sky,
+  .kcard-coral,
+  .kcard-cream,
+  .kcard-lime {
+    box-shadow: none !important;
+    border: 2px solid #000 !important;
+  }
+}
