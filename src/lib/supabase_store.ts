@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import type { EventSettings, SlotConfig, PartnershipTier, ExperienceItem, MediaPartnerConfig, TenantSubmission, PartnerData } from './store';
+import type { EventSettings, SlotConfig, PartnershipTier, ExperienceItem, TenantSubmission, PartnerData } from './store';
 
 // Helper to convert camelCase to snake_case for Supabase
 const toSnakeCase = (obj: any) => {

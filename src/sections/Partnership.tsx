@@ -124,7 +124,7 @@ export default function Partnership() {
           </h3>
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 max-w-5xl mx-auto">
             {activeSponsors.map((sponsor) => {
-              const sponsorTier = tiers.find(t => t.name.toLowerCase() === sponsor.tier.toLowerCase());
+              const sponsorTier = sponsor.tier ? tiers.find(t => t.name.toLowerCase() === sponsor.tier?.toLowerCase()) : null;
               const badgeBg = sponsorTier ? sponsorTier.color : 'bg-nearblack';
               // If background is dark, text should be white. But bg-mint/bg-sky/bg-cream are light colors in this theme!
               // Wait, bg-mint/sky/cream are light colors, so text should be nearblack.
