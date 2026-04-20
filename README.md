@@ -46,6 +46,17 @@ KeMetroFest adalah platform manajemen event modern yang dirancang khusus untuk f
    npm run build
    ```
 
+## 🌐 Deployment (GitHub Pages)
+
+Project ini siap di-deploy ke GitHub Pages. Setiap kali Anda melakukan `git push` ke branch `main`, GitHub Actions akan otomatis membangun dan merilis situs Anda.
+
+### Persiapan di GitHub:
+1. Pergi ke **Settings > Secrets and variables > Actions**.
+2. Tambahkan **Repository Secrets** berikut:
+   - `VITE_SUPABASE_URL`: (URL Supabase Anda)
+   - `VITE_SUPABASE_ANON_KEY`: (Anon Key Supabase Anda)
+3. Pergi ke **Settings > Pages**, pada bagian **Build and deployment > Source**, pastikan terpilih **GitHub Actions**.
+
 ## 🛠️ Panduan Admin
 
 Untuk mengakses dashboard admin, navigasikan ke `/admin` atau klik link Admin yang tersedia. Seluruh perubahan yang dilakukan di dashboard akan langsung tercermin di Landing Page secara instan.

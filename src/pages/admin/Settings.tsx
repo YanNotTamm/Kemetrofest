@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { getSettings, saveSettings, getSlots, saveSlots, getTiers, saveTiers, getMediaPartners, saveMediaPartners, getExperiences, saveExperiences } from '@/lib/store';
 import type { EventSettings, SlotConfig, PartnershipTier, MediaPartnerConfig, ExperienceItem } from '@/lib/store';
-import { Save, Plus, Trash2, Settings as SettingsIcon, MapPin, Calendar, Image as ImageIcon, Share2, MessageSquare, Globe, Database, Download, Upload, FileCode, Camera } from 'lucide-react';
+import { updateSettings as syncSettings, upsertSlots, upsertTiers, upsertExperiences, seedSupabaseFromLocal } from '@/lib/supabase_store';
+import { Save, Plus, Trash2, Settings as SettingsIcon, MapPin, Calendar, Image as ImageIcon, Share2, MessageSquare, Globe, Database, Download, Upload, FileCode, Camera, Cloud } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Settings() {
@@ -12,19 +13,22 @@ export default function Settings() {
   const [experiences, setExperiences] = useState<ExperienceItem[]>(getExperiences());
   const [activeTab, setActiveTab] = useState<'general' | 'slots' | 'experience' | 'partnership' | 'media' | 'templates' | 'backup'>('general');
 
-  const handleSaveSettings = () => {
+  const handleSaveSettings = async () => {
     saveSettings(settings);
-    toast.success('Pengaturan berhasil disimpan!');
+    await syncSettings(settings);
+    toast.success('Pengaturan berhasil disimpan ke Cloud!');
   };
 
-  const handleSaveSlots = () => {
+  const handleSaveSlots = async () => {
     saveSlots(slots);
-    toast.success('Data slot berhasil disimpan!');
+    await upsertSlots(slots);
+    toast.success('Data slot berhasil disimpan ke Cloud!');
   };
 
-  const handleSaveTiers = () => {
+  const handleSaveTiers = async () => {
     saveTiers(tiers);
-    toast.success('Data kemitraan berhasil disimpan!');
+    await upsertTiers(tiers);
+    toast.success('Data kemitraan berhasil disimpan ke Cloud!');
   };
 
   const handleSaveMediaPartners = () => {
@@ -32,9 +36,22 @@ export default function Settings() {
     toast.success('Data Media Partner berhasil disimpan!');
   };
 
-  const handleSaveExperiences = () => {
+  const handleSaveExperiences = async () => {
     saveExperiences(experiences);
-    toast.success('Data pengalaman berhasil disimpan!');
+    await upsertExperiences(experiences);
+    toast.success('Data pengalaman berhasil disimpan ke Cloud!');
+  };
+
+  const handleMigration = async () => {
+    const ok = confirm('Apakah Anda yakin ingin mengunggah seluruh data lokal ke Supabase? Data yang ada di Cloud mungkin akan tertimpa.');
+    if (!ok) return;
+    
+    const promise = seedSupabaseFromLocal();
+    toast.promise(promise, {
+      loading: 'Sedang memindahkan data ke Cloud...',
+      success: 'Migrasi ke Cloud berhasil!',
+      error: 'Gagal melakukan migrasi.'
+    });
   };
 
   const handleImageUpload = (key: keyof EventSettings, file: File | null) => {
@@ -695,6 +712,32 @@ export default function Settings() {
                   </label>
                 </div>
               </div>
+            </div>
+
+            {/* Cloud Migration */}
+            <div className="bg-white rounded-2xl border-[3px] border-nearblack p-6 space-y-4">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 bg-sky/30 rounded-xl flex items-center justify-center border-2 border-nearblack">
+                  <Cloud className="w-6 h-6 text-nearblack" />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-nearblack text-lg">Migrasi Cloud (Supabase)</h3>
+                  <p className="text-xs text-nearblack/60">Pindahkan semua data lokal saat ini ke database online.</p>
+                </div>
+              </div>
+              
+              <div className="p-4 bg-amber-50 rounded-xl border-2 border-amber-200">
+                <p className="text-sm text-amber-800 leading-relaxed">
+                  Gunakan fitur ini hanya sekali saat pertama kali menyiapkan database Supabase Anda untuk memastikan data yang ada di laptop Anda terunggah ke server.
+                </p>
+              </div>
+
+              <button 
+                onClick={handleMigration}
+                className="kbtn-secondary flex items-center gap-2 w-full justify-center py-4"
+              >
+                <Cloud className="w-5 h-5" /> Mulai Migrasi ke Cloud
+              </button>
             </div>
           </div>
         </div>

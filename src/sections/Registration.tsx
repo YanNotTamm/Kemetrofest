@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registrationSchema, categories, type RegistrationFormData } from '@/lib/registrationSchema';
 import { addTenant, getSettings, getSlots } from '@/lib/store';
+import { insertTenant } from '@/lib/supabase_store';
 import { toast } from 'sonner';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -53,9 +54,11 @@ export default function Registration() {
     return () => ctx.revert();
   }, []);
 
-  const onSubmit = (data: RegistrationFormData) => {
+  const onSubmit = async (data: RegistrationFormData) => {
     // Save to localStorage
     addTenant(data);
+    // Save to Supabase
+    await insertTenant(data);
 
     // Build WhatsApp message using template
     const blockName = slots.find(s => s.id === data.block)?.name || data.block;

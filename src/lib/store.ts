@@ -1,3 +1,15 @@
+import { supabase } from './supabase';
+
+// Helper to convert camelCase to snake_case for Supabase
+const toSnakeCase = (obj: any) => {
+  const result: any = {};
+  for (const key in obj) {
+    const snakeKey = key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+    result[snakeKey] = obj[key];
+  }
+  return result;
+};
+
 // ========================================
 // localStorage-based data store for KeMetroFest
 // ========================================
@@ -200,6 +212,10 @@ export function getSettings(): EventSettings {
 }
 export function saveSettings(s: EventSettings): void {
   set(KEYS.settings, s);
+  // Background sync to Supabase
+  const snake = toSnakeCase(s);
+  delete snake.updated_at;
+  supabase.from('settings').upsert({ id: 1, ...snake }).then();
 }
 
 // Slots
@@ -208,6 +224,7 @@ export function getSlots(): SlotConfig[] {
 }
 export function saveSlots(s: SlotConfig[]): void {
   set(KEYS.slots, s);
+  supabase.from('slots').upsert(s.map(toSnakeCase)).then();
 }
 
 // Partnership Tiers
@@ -216,6 +233,7 @@ export function getTiers(): PartnershipTier[] {
 }
 export function saveTiers(t: PartnershipTier[]): void {
   set(KEYS.tiers, t);
+  supabase.from('partnership_tiers').upsert(t.map(toSnakeCase)).then();
 }
 
 // Media Partners (Landing Page)
@@ -232,6 +250,13 @@ export function getTenants(): TenantSubmission[] {
 }
 export function saveTenants(t: TenantSubmission[]): void {
   set(KEYS.tenants, t);
+  const snakeTenants = t.map(tenant => {
+    const s = toSnakeCase(tenant);
+    (s as any).block_id = tenant.block;
+    delete s.block;
+    return s;
+  });
+  supabase.from('tenants').upsert(snakeTenants).then();
 }
 export function addTenant(t: Omit<TenantSubmission, 'id' | 'submittedAt' | 'status'>): TenantSubmission {
   const tenants = getTenants();
@@ -252,6 +277,7 @@ export function getPartners(): PartnerData[] {
 }
 export function savePartners(p: PartnerData[]): void {
   set(KEYS.PARTNERS, p);
+  supabase.from('partners').upsert(p.map(toSnakeCase)).then();
 }
 export const addPartner = (data: Omit<PartnerData, 'id' | 'status' | 'addedAt'>) => {
   const partners = getPartners();
@@ -276,4 +302,9 @@ export const getExperiences = (): ExperienceItem[] => {
 
 export const saveExperiences = (data: ExperienceItem[]) => {
   localStorage.setItem(KEYS.EXPERIENCES, JSON.stringify(data));
+  supabase.from('experiences').upsert(data.map(e => {
+    const s = toSnakeCase(e);
+    delete s.created_at;
+    return s;
+  })).then();
 };

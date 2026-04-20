@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import './App.css';
 
@@ -12,7 +12,14 @@ import Settings from './pages/admin/Settings';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 
+import { useEffect } from 'react';
+import { syncFromCloud } from './lib/sync';
+
 function App() {
+  useEffect(() => {
+    syncFromCloud();
+  }, []);
+
   return (
     <Router>
       <Routes>
