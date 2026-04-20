@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { getSettings, saveSettings, getSlots, saveSlots, getTiers, saveTiers, getMediaPartners, saveMediaPartners, getExperiences, saveExperiences } from '@/lib/store';
 import type { EventSettings, SlotConfig, PartnershipTier, MediaPartnerConfig, ExperienceItem } from '@/lib/store';
 import { updateSettings as syncSettings, upsertSlots, upsertTiers, upsertExperiences, seedSupabaseFromLocal } from '@/lib/supabase_store';
-import { Save, Plus, Trash2, Settings as SettingsIcon, MapPin, Calendar, Image as ImageIcon, Database, Download, Upload, FileCode, Camera, Cloud } from 'lucide-react';
+import { Save, Plus, Trash2, Database, Download, Upload, FileCode, Camera, Cloud } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Settings() {
